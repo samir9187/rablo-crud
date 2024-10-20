@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { removeTodo, toggleComplete, editTodo } from "../redux/todoSlice";
 import styles from "../app/page.module.scss";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const TodoItem = ({ todo }) => {
   const dispatch = useDispatch();
@@ -12,8 +13,13 @@ const TodoItem = ({ todo }) => {
   const handleEdit = () => {
     if (isEditing && editText.trim()) {
       dispatch(editTodo({ id: todo.id, newText: editText }));
+      toast.success("Task updated successfully!");
     }
     setIsEditing(!isEditing);
+  };
+  const handleRemove = () => {
+    dispatch(removeTodo(todo.id));
+    toast.success("Task removed!");
   };
 
   return (
@@ -46,10 +52,7 @@ const TodoItem = ({ todo }) => {
         >
           {isEditing ? "Update" : "Edit"}
         </button>
-        <button
-          className={styles.removeButton}
-          onClick={() => dispatch(removeTodo(todo.id))}
-        >
+        <button className={styles.removeButton} onClick={handleRemove}>
           Remove
         </button>
       </div>

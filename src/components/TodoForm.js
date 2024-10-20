@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTodo } from "../redux/todoSlice";
 import styles from "../app/page.module.scss";
+import { toast } from "react-toastify";
 
 const TodoForm = () => {
   const [text, setText] = useState("");
@@ -13,6 +14,9 @@ const TodoForm = () => {
     if (text.trim()) {
       dispatch(addTodo(text));
       setText("");
+      toast.success("Task added successfully!");
+    } else {
+      toast.error("Please enter a valid task!");
     }
   };
 
